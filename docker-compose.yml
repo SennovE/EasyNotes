@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  db:
+    container_name: 'easy_notes_postgres'
+    image: postgres:latest
+    env_file:
+      - ./.env
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'

@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "easy_notes_api"
+version = "0.1.0"
+description = ""
+authors = ["Egor Sennov <esennov2005@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.1"
+sqlalchemy = "^2.0.31"
+alembic = "^1.13.2"
+psycopg2 = "^2.9.9"
+pydantic-settings = "^2.3.4"
+isort = "^5.13.2"
+pylint = "^3.2.5"
+black = "^24.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

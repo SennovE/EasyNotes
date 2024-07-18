@@ -1,0 +1,17 @@
+APPLICATION_NAME = easy_notes_api
+
+lint:  ##@Code Check code with pylint
+	poetry run python -m pylint $(APPLICATION_NAME)
+
+format:  ##@Code Reformat code with isort and black
+	poetry run python -m isort $(APPLICATION_NAME)
+	poetry run python -m black $(APPLICATION_NAME)
+
+run:  ##@Application Run application server
+	poetry run fastapi dev $(APPLICATION_NAME)/__main__.py
+
+db:  ##@Database Create database with docker-compose
+	docker-compose -f docker-compose.yml up -d --remove-orphans
+
+migrate:  ##@Database Do all migrations in database
+	cd $(APPLICATION_NAME)/db && alembic upgrade head
