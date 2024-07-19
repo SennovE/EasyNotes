@@ -4,14 +4,14 @@ from alembic import context
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
-from easy_notes_api.config import DefaultSettings
+from easy_notes_api.config import get_settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 load_dotenv()
 config = context.config
 section = config.config_ini_section
-settings = DefaultSettings()
+settings = get_settings()
 config.set_section_option(section, "POSTGRES_DB", settings.POSTGRES_DB)
 config.set_section_option(section, "POSTGRES_HOST", settings.POSTGRES_HOST)
 config.set_section_option(section, "POSTGRES_USER", settings.POSTGRES_USER)

@@ -24,8 +24,8 @@ class User(DeclarativeBase):
         index=True,
         doc="Username for authentication.",
     )
-    password_hash = Column(
-        "password_hash",
+    password = Column(
+        "password",
         TEXT,
         nullable=False,
         index=True,

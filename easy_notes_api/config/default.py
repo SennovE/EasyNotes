@@ -1,6 +1,8 @@
 from os import environ
 
 from pydantic_settings import BaseSettings
+from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
 
 
 class DefaultSettings(BaseSettings):
@@ -15,6 +17,13 @@ class DefaultSettings(BaseSettings):
     POSTGRES_PASSWORD: str = environ.get("POSTGRES_PASSWORD", "password")
     DB_CONNECT_RETRY: int = environ.get("DB_CONNECT_RETRY", 20)
     DB_POOL_SIZE: int = environ.get("DB_POOL_SIZE", 15)
+
+    SECRET_KEY: str = environ.get("SECRET_KEY", "")
+    ALGORITHM: str = environ.get("ALGORITHM", "HS256")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", 10080))
+
+    PWD_CONTEXT: CryptContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    OAUTH2_SCHEME: OAuth2PasswordBearer = OAuth2PasswordBearer(tokenUrl=f"{PATH_PREFIX}/user/token")
 
     @property
     def database_settings(self) -> dict:

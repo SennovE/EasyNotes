@@ -1,6 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
+from easy_notes_api.config import get_settings
+
 
 class SessionManager:
     """
@@ -20,9 +22,7 @@ class SessionManager:
         return sessionmaker(self.engine, class_=AsyncSession, expire_on_commit=False)
 
     def refresh(self) -> None:
-        self.engine = create_async_engine(
-            "postgresql://user:password@localhost:5432/database", echo=True, future=True
-        )
+        self.engine = create_async_engine(get_settings().database_uri, echo=True, future=True)
 
 
 async def get_session() -> AsyncSession:
