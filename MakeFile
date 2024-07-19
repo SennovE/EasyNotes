@@ -8,7 +8,7 @@ format:  ##@Code Reformat code with isort and black
 	poetry run python -m black $(APPLICATION_NAME)
 
 run:  ##@Application Run application server
-	poetry run fastapi dev $(APPLICATION_NAME)/__main__.py
+	poetry run python $(APPLICATION_NAME)/__main__.py
 
 db:  ##@Database Create database with docker-compose
 	docker-compose -f docker-compose.yml up -d --remove-orphans
