@@ -2,15 +2,15 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt
-from jwt.exceptions import InvalidTokenError
 from fastapi import Depends, HTTPException, status
+from jwt.exceptions import InvalidTokenError
+from sqlalchemy import exc, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, exc
 
 from easy_notes_api.config import DefaultSettings, get_settings
 from easy_notes_api.db.connection import get_session
 from easy_notes_api.db.models import User
-from easy_notes_api.schemas import TokenData, RegistrationForm
+from easy_notes_api.schemas import RegistrationForm, TokenData
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -41,10 +41,7 @@ async def authenticate_user(session: AsyncSession, username: str, password: str)
     return user
 
 
-def create_access_token(
-    data: dict,
-    expires_delta: timedelta | None = None
-):
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
@@ -52,14 +49,16 @@ def create_access_token(
         expire = datetime.now(timezone.utc) + timedelta(minutes=60)
     settings = get_settings()
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    encoded_jwt = jwt.encode(
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
+    )
     return encoded_jwt
 
 
 async def get_current_user(
     token: Annotated[str, Depends(get_settings().OAUTH2_SCHEME)],
     session: Annotated[AsyncSession, Depends(get_session)],
-    settings: Annotated[DefaultSettings, Depends(get_settings)],  
+    settings: Annotated[DefaultSettings, Depends(get_settings)],
 ) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -67,7 +66,9 @@ async def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception

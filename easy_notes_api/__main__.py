@@ -1,8 +1,10 @@
-from fastapi import FastAPI
-from easy_notes_api.endpoints import list_of_routes
-from easy_notes_api.config import get_settings
-from uvicorn import run
 from urllib.parse import urlparse
+
+from fastapi import FastAPI
+from uvicorn import run
+
+from easy_notes_api.config import get_settings
+from easy_notes_api.endpoints import list_of_routes
 
 
 def bind_routes(application: FastAPI) -> None:
@@ -24,6 +26,10 @@ def get_app() -> FastAPI:
         {
             "name": "User",
             "description": "Registration and authorization before further actions.",
+        },
+        {
+            "name": "Notes",
+            "description": "Create notes from text fragments and annotate them.",
         },
     ]
 

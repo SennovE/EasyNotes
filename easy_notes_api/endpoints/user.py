@@ -1,36 +1,38 @@
-from typing import Annotated
 from datetime import timedelta
+from typing import Annotated
 
 from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from starlette import status
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
 
-from easy_notes_api.schemas import RegistrationForm
+from easy_notes_api.config import DefaultSettings, get_settings
 from easy_notes_api.db.connection import get_session
+from easy_notes_api.db.models import User
+from easy_notes_api.schemas import (
+    RegistrationForm,
+    RegistrationSuccess,
+    Token,
+    UserSchema,
+)
 from easy_notes_api.utils.user import (
-    register_user,
     authenticate_user,
     create_access_token,
-    get_current_user
+    get_current_user,
+    register_user,
 )
-from easy_notes_api.schemas import RegistrationSuccess, Token, UserSchema
-from easy_notes_api.config import get_settings, DefaultSettings
-from easy_notes_api.db.models import User
-
 
 api_router = APIRouter(prefix="/user", tags=["User"])
 
 
 @api_router.post(
     "/register",
-    status_code=status.HTTP_201_CREATED,    
-    response_model=RegistrationSuccess,
+    status_code=status.HTTP_201_CREATED,
 )
 async def registration(
     registration_form: Annotated[RegistrationForm, Body()],
     session: AsyncSession = Depends(get_session),
-):
+) -> RegistrationSuccess:
     is_success = await register_user(session, registration_form)
     if is_success:
         return {"message": "Registered!"}
@@ -44,7 +46,7 @@ async def registration(
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: Annotated[AsyncSession, Depends(get_session)],
-    settings: Annotated[DefaultSettings, Depends(get_settings)]
+    settings: Annotated[DefaultSettings, Depends(get_settings)],
 ) -> Token:
     user = await authenticate_user(session, form_data.username, form_data.password)
     if not user:

@@ -30,9 +30,7 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint("id", name=op.f("pk__user")),
         sa.UniqueConstraint("id", name=op.f("uq__user__id")),
     )
-    op.create_index(
-        op.f("ix__user__password"), "user", ["password"], unique=False
-    )
+    op.create_index(op.f("ix__user__password"), "user", ["password"], unique=False)
     op.create_index(op.f("ix__user__username"), "user", ["username"], unique=True)
     op.create_table(
         "note",
