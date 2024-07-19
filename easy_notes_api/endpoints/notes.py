@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
@@ -18,7 +18,7 @@ api_router = APIRouter(prefix="/note", tags=["Notes"])
     status_code=status.HTTP_201_CREATED,
 )
 async def create_note(
-    note: NoteForm,
+    note: Annotated[NoteForm, Body()],
     session: Annotated[AsyncSession, Depends(get_session)],
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> NoteCreateSuccess:
