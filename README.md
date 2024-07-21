@@ -4,6 +4,105 @@
 
 API сделано на основе библиотеки `FastAPI` и `sqlalchemy` для работы с базой данных. Для сохранения конфеденциальности пользователей используется хэширование пароля в хранилище, а также OAuth2 схема при передаче пароля и аутентификация по JWT токену. Все обращения к базе данных происходят в ассинхронных функциях. Данные валидируются при помощи аннотации и схем с ипользованием `pydantic`.
 
+## Функциональность
+
+### Пользователь
+
+---
+
+**Регистрация**
+```http
+POST /api/v1/user/register
+```
+
+Параметры запроса:
+- `username`: `string` `>= 5 characters` `matches ^\S+$`
+- `password`: `string` `>= 8 characters`
+
+---
+
+**Аутентификация**
+```http
+POST /api/v1/user/token
+```
+
+Параметры запроса:
+- `username`: `string`
+- `password`: `string`
+
+При успешной аутентификиции сервис вернет JWT-токен.
+
+---
+
+### Заметки
+
+---
+
+**При всех запросах связанных с заметками в headers надо передавать:**
+```json
+{"Authorization": "Bearer <JWT-токен, который был получен при аутентификации>"}
+```
+
+---
+
+**Создание заметки**
+```http
+POST /api/v1/note
+```
+
+Параметры запроса:
+- `title`: `string`
+- `url`: `string | null` `HttpUrl`
+- `note_text`: `string`
+- `comment`: `string | null`
+- `tag`: `string | null`
+
+---
+
+**Удаление заметки по названию**
+```http
+DELETE /api/v1/note
+```
+Параметры пути:
+- `note_title`: `string`
+
+---
+
+**Изменение полей заметки**
+```http
+PUT /api/v1/note
+```
+
+Параметры пути:
+- `note_title`: `string`
+
+Параметры запроса:
+- `title`: `string | null`
+- `url`: `string | null` `HttpUrl`
+- `note_text`: `string | null`
+- `comment`: `string | null`
+- `tag`: `string | null`
+
+---
+
+**Получение заметки по названию**
+```http
+GET /api/v1/note
+```
+
+Параметры пути:
+- `note_title`: `string`
+
+При передаче существующего названия будет выдана заметка с полями:
+- `title`
+- `url`
+- `note_text`
+- `comment`
+- `tag`
+- `date_created`
+
+---
+
 ## Запуск
 
 Требования:
@@ -13,9 +112,8 @@ API сделано на основе библиотеки `FastAPI` и `sqlalche
 - Docker-compose
 
 Перед запуском создайте файл с названием `.env`, в котором будут лежать параметры окружения.
-<details>
-<summary><h10><i>Пример</i></h10></summary>
-  
+
+<i>Пример</i>  
 ```.env
 POSTGRES_DB=database
 POSTGRES_HOST=localhost
@@ -34,8 +132,6 @@ SECRET_KEY=secret
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=10080
 ```
-
-</details>
 
 Создание виртуального окружения и установка зависимостей:
 
