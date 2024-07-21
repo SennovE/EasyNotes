@@ -1,4 +1,4 @@
-from .note import NoteCreateSuccess, NoteForm
+from .note import NoteChangeForm, NoteCreateSuccess, NoteForm, UserNote
 from .register import RegistrationForm, RegistrationSuccess
 from .token import Token, TokenData
 from .user import UserSchema
@@ -11,4 +11,6 @@ __all__ = [
     "UserSchema",
     "NoteForm",
     "NoteCreateSuccess",
+    "NoteChangeForm",
+    "UserNote",
 ]

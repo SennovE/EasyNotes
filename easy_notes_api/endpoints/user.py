@@ -28,6 +28,14 @@ api_router = APIRouter(prefix="/user", tags=["User"])
 @api_router.post(
     "/register",
     status_code=status.HTTP_201_CREATED,
+    responses={
+        status.HTTP_400_BAD_REQUEST: {
+            "description": "Username already exists",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "Incorrect username or password",
+        },
+    },
 )
 async def registration(
     registration_form: Annotated[RegistrationForm, Body()],
@@ -38,11 +46,18 @@ async def registration(
         return {"message": "Registered!"}
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
-        detail="Username already exists.",
+        detail="Username already exists",
     )
 
 
-@api_router.post("/token")
+@api_router.post(
+    "/token",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "Incorrect username or password",
+        },
+    },
+)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: Annotated[AsyncSession, Depends(get_session)],
@@ -62,8 +77,16 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@api_router.get("/users/me/", response_model=UserSchema)
+@api_router.get(
+    "/users/me/",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "Incorrect username or password",
+        },
+    },
+    summary="Get active user information",
+)
 async def read_users_me(
     current_user: Annotated[User, Depends(get_current_user)],
-):
+) -> UserSchema:
     return current_user

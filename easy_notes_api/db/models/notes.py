@@ -1,5 +1,5 @@
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.postgresql import TEXT, UUID, TIMESTAMP
+from sqlalchemy import Column, ForeignKey, UniqueConstraint
+from sqlalchemy.dialects.postgresql import TEXT, TIMESTAMP, UUID
 from sqlalchemy.sql import func
 
 from easy_notes_api.db import DeclarativeBase
@@ -20,6 +20,12 @@ class Note(DeclarativeBase):
         ForeignKey("user.id"),
         nullable=False,
         doc="Identifier of user, who made note",
+    )
+    title = Column(
+        "title",
+        TEXT,
+        nullable=False,
+        doc="Title of the note.",
     )
     note_text = Column(
         "note_text",
@@ -54,6 +60,7 @@ class Note(DeclarativeBase):
         server_default=None,
         doc="Tag of the note.",
     )
+    UniqueConstraint(owner_id, title)
 
     def __repr__(self):
         columns = {
