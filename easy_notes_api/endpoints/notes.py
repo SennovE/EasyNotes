@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Path
+from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
@@ -21,7 +21,7 @@ api_router = APIRouter(prefix="/note", tags=["Notes"])
 
 
 @api_router.post(
-    "/create",
+    "",
     status_code=status.HTTP_201_CREATED,
     responses={
         status.HTTP_400_BAD_REQUEST: {
@@ -71,7 +71,7 @@ async def create_note(
 
 
 @api_router.delete(
-    "/{note_title}",
+    "",
     status_code=status.HTTP_204_NO_CONTENT,
     responses={
         status.HTTP_401_UNAUTHORIZED: {
@@ -80,7 +80,7 @@ async def create_note(
     },
 )
 async def delete_note(
-    note_title: Annotated[str, Path()],
+    note_title: Annotated[str, Query()],
     session: Annotated[AsyncSession, Depends(get_session)],
     current_user: Annotated[User, Depends(get_current_user)],
 ):
@@ -88,7 +88,7 @@ async def delete_note(
 
 
 @api_router.put(
-    "/{note_title}",
+    "",
     status_code=status.HTTP_204_NO_CONTENT,
     responses={
         status.HTTP_400_BAD_REQUEST: {
@@ -103,7 +103,7 @@ async def delete_note(
     },
 )
 async def rename_note(
-    note_title: Annotated[str, Path()],
+    note_title: Annotated[str, Query()],
     changes: Annotated[NoteChangeForm, Body()],
     session: Annotated[AsyncSession, Depends(get_session)],
     current_user: Annotated[User, Depends(get_current_user)],
@@ -112,7 +112,7 @@ async def rename_note(
 
 
 @api_router.get(
-    "/{note_title}",
+    "",
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_401_UNAUTHORIZED: {
@@ -122,7 +122,7 @@ async def rename_note(
     response_model=UserNote,
 )
 async def get_note_by_title(
-    note_title: Annotated[str, Path()],
+    note_title: Annotated[str, Query()],
     session: Annotated[AsyncSession, Depends(get_session)],
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> UserNote:
