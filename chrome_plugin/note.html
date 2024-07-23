@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добро пожаловать</title>
+    <title>Заметка</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
             margin: 0;
             color: white;
             min-width: 400px;
-            min-height: 470px;
+            min-height: 600px;
         }
         .container {
             background: rgba(255, 255, 255, 0.1);
@@ -45,9 +45,6 @@
         button:hover {
             background-color: #e0e0e0;
         }
-        #registration-form, #login-form {
-            display: none;
-        }
         input {
             border: 1px solid #ddd;
             background-color: #f9f9f9;
@@ -60,6 +57,7 @@
             height: 100px;
             width: calc(100% - 40px);
             overflow: auto;
+            margin-bottom: 10px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -70,16 +68,22 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
+        .corner-text {
+            text-align: right;
+            font-size: 16px;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         
-        <h2>Заметка</h2>
+        <h2 class="corner-text" id="is-login"><u></u></h2>
+        <h1>Заметка</h1>
         <form id="form">
             <input id="title" type="text" placeholder="Название" required>
             <textarea  class="scrollable-textarea" id="note-text" type="text" placeholder="Заметка" required></textarea>
-            <textarea  class="scrollable-textarea" id="note-text" type="text" placeholder="Комментарий" required></textarea>
+            <textarea  class="scrollable-textarea" id="comment" type="text" placeholder="Комментарий" required></textarea>
         </form>
 
         <div class="server-ans">
@@ -87,6 +91,9 @@
         </div>
         
         <button id="send-note-btn" type="submit">Отправить</button>
+        <button id="login-btn" type="submit">Войти в аккаунт</button>
     </div>
+
+    <script src="note.js"></script>
 </body>
 </html>

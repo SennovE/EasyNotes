@@ -75,7 +75,7 @@ async def login_for_access_token(
 
 
 @api_router.get(
-    "/users/me/",
+    "/me",
     responses={
         status.HTTP_401_UNAUTHORIZED: {
             "description": "Incorrect username or password",
