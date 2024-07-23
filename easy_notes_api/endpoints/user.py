@@ -32,9 +32,6 @@ api_router = APIRouter(prefix="/user", tags=["User"])
         status.HTTP_400_BAD_REQUEST: {
             "description": "Username already exists",
         },
-        status.HTTP_401_UNAUTHORIZED: {
-            "description": "Incorrect username or password",
-        },
     },
 )
 async def registration(

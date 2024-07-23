@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from uvicorn import run
 
 from easy_notes_api.config import get_settings
@@ -38,6 +39,15 @@ def get_app() -> FastAPI:
         description=description,
         openapi_tags=tags_metadata,
     )
+
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     bind_routes(application)
     return application
 

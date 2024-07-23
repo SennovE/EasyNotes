@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добро пожаловать</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            min-width: 400px;
+            min-height: 400px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        button, input {
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #ffffff;
+            color: #0072ff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        #registration-form, #login-form {
+            display: none;
+        }
+        input {
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .server-ans {            
+            color: #c30632;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="intro">            
+            <h1>Добро пожаловать</h1>
+            <button id="show-registration">Регистрация</button>
+            <button id="show-login">Вход</button>
+        </div>
+        
+        <h2 id="register-text">Регистрация</h2>
+        <h2 id="login-text">Вход</h2>
+        <form id="form">
+            <input id="username" type="text" placeholder="Имя" required>
+            <input id="password" type="password" placeholder="Пароль" required>
+        </form>
+
+        <div class="server-ans">
+            <h2 id="response"></h2>
+        </div>
+        
+        <button id="register-btn" type="submit">Зарегистрироваться</button>
+        <button id="login-btn" type="submit">Войти</button>
+        <button id="back">Назад</button>
+        <button id="make-note">Создать заметку</button>
+    </div>
+
+    <script src="register.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
