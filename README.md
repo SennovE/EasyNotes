@@ -12,6 +12,10 @@
 
 ## Функциональность
 
+`Swagger`:
+
+![swagger](swagger_preview\image.png)
+
 ### Пользователь
 
 ---
@@ -163,7 +167,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES=10080
 
 Ссылка на `swagger` и документацию сервиса будет иметь вид `APP_HOST:APP_PORT/docs` (APP_HOST, APP_PORT будут браться из файли `.env`).
 
-Ссылка с окружением из примера [http://127.0.0.1:8080/docs](http://127.0.0.1:8080/docs).
+Ссылка на `swagger` с файлом окружения (`.env`) из примера [http://127.0.0.1:8080/docs](http://127.0.0.1:8080/docs).
 
 ## Запуск расширения для Chrome
 

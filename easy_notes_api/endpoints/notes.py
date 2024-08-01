@@ -10,7 +10,7 @@ from easy_notes_api.schemas import NoteChangeForm, NoteCreateSuccess, NoteForm, 
 from easy_notes_api.utils.enum_exeptions import HttpEnumExceptions
 from easy_notes_api.utils.note import (
     add_note_to_db,
-    change_title,
+    change_note_fields,
     delete_node_by_title,
     get_note,
     is_website_exist,
@@ -102,13 +102,13 @@ async def delete_note(
         },
     },
 )
-async def rename_note(
+async def change_note(
     note_title: Annotated[str, Query()],
     changes: Annotated[NoteChangeForm, Body()],
     session: Annotated[AsyncSession, Depends(get_session)],
     current_user: Annotated[User, Depends(get_current_user)],
 ):
-    return await change_title(note_title, changes, current_user, session)
+    return await change_note_fields(note_title, changes, current_user, session)
 
 
 @api_router.get(

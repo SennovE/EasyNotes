@@ -48,7 +48,7 @@ async def delete_node_by_title(
     await session.commit()
 
 
-async def change_title(
+async def change_note_fields(
     note_title: str, changes: NoteChangeForm, current_user: User, session: AsyncSession
 ) -> None:
     response = await get_note(note_title, current_user.id, session)
