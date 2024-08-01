@@ -14,7 +14,7 @@
 
 `Swagger`:
 
-![swagger](swagger_preview\image.png)
+![swagger](swagger_preview/image.png)
 
 ### Пользователь
 
